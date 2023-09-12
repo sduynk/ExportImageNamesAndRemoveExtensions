@@ -1,0 +1,37 @@
+Sub ExportImageNamesAndRemoveExtensions()
+    Dim FolderPath As String
+    Dim FileName As String
+    Dim Row As Long
+
+    ' Set the folder path and file name
+    FolderPath = "C:\Users\sedau\Desktop\AIC Group\ML\function based\3 classes modified\Colloidal\" ' Specify the folder path where the images are located
+    FileName = "ImageNames.xlsx" ' Change the Excel file name or specify a new one
+
+    ' Open or create the Excel workbook
+    Workbooks.Add
+    ActiveWorkbook.SaveAs FileName
+
+    ' Add headers
+    Cells(1, 1).Value = "Image Names"
+
+    ' Start from the first row to add file names to the list
+    Row = 2
+    File = Dir(FolderPath & "*.*") ' You can use *.* to get all files
+
+    ' Loop through the files and add their names to the list
+    Do While File <> ""
+        Cells(Row, 1).Value = File
+        ' Remove the ".jpg" extension from the file name
+        If Right(File, 4) = ".jpg" Then
+            File = Left(File, Len(File) - 4)
+            Cells(Row, 1).Value = File
+        End If
+        Row = Row + 1
+        File = Dir
+    Loop
+
+    ' Save the Excel workbook
+    ActiveWorkbook.Save
+
+    MsgBox "Image names were exported to the Excel file, and extensions were removed.", vbInformation
+End Sub
